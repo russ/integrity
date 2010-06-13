@@ -178,6 +178,15 @@ class GitHubTest < Test::Unit::AcceptanceTestCase
       visit "/"
       click_link "My Test Project (wip)"
       assert_have_tag("h1", :content => "Built #{repo.short_head} and failed")
+
+      Integrity.auto_branch = /^deploy$/
+      repo.checkout "deploy"
+      repo.add_successful_commit
+
+      github_post payload(repo)
+      assert_equal "0", last_response.body
+      visit "/"
+      assert_not_contain("deploy")
     ensure
       Integrity.auto_branch = false
     end

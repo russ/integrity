@@ -28,9 +28,12 @@ module Integrity
       end
 
       def forked
-        if master = all.first("master")
-          master.fork(@branch)
+        if Regexp === Integrity.auto_branch
+          return if @branch =~ Integrity.auto_branch
         end
+
+        return unless master = all.first("master")
+        master.fork(@branch)
       end
 
       def all
