@@ -179,7 +179,7 @@ class GitHubTest < Test::Unit::AcceptanceTestCase
       click_link "My Test Project (wip)"
       assert_have_tag("h1", :content => "Built #{repo.short_head} and failed")
 
-      Integrity.auto_branch = /^deploy$/
+      Integrity.auto_branch = %w[deploy]
       repo.checkout "deploy"
       repo.add_successful_commit
 

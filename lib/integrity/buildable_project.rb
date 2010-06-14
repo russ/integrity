@@ -28,8 +28,8 @@ module Integrity
       end
 
       def forked
-        if Regexp === Integrity.auto_branch
-          return if @branch =~ Integrity.auto_branch
+        if Integrity.auto_branch.respond_to?(:include?)
+          return if Integrity.auto_branch.include?(@branch)
         end
 
         return unless master = all.first("master")
