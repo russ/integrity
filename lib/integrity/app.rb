@@ -106,6 +106,11 @@ module Integrity
       redirect build_url(@build).to_s
     end
 
+    get "/:project/builds.json" do
+      content_type :json
+      { :status => current_project.status }.to_json
+    end
+
     get "/:project/builds/:build" do
       login_required unless current_project.public?
       show :build, :title => ["projects", current_project.permalink,
